@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class Game
 {
@@ -29,35 +28,33 @@ public class Game
 
         for (int i = 0; i < turns; i++)
         {
-            try
+            /*try
             {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e)
             {
                 throw new RuntimeException(e);
-            }
+            }*/
             nextTurn(gameMap);
             gameMap.display();
+            System.out.println("\n Turn: " + i + " :  " + "Rabbits: " + getCount(AnimalType.RABBIT, gameMap) + " :  Wolves: " + getCount(AnimalType.WOLF, gameMap) + "\n\n\n");
 
-            System.out.println();
-            System.out.println();
-            System.out.println();
-
-            System.out.println("Rabbits: " + getCount(AnimalType.RABBIT, gameMap) + " :  Wolves: " + getCount(AnimalType.WOLF, gameMap));
+            if (endGame(gameMap))
+                break;
         }
 
     }
 
     private static void nextTurn(GameMap gameMap)
     {
+        gameMap.shuffle();
         gameMap.map.forEach(
                 animals -> animals.forEach(
                         Animal::increaseAge));
+        gameMap.dieAfterNotEating();
         gameMap.eat();
         gameMap.reproduce();
-        gameMap.dieOfAge();
 
-        gameMap.shuffle();
     }
 
 
@@ -74,6 +71,14 @@ public class Game
             }
         }
         return count;
+    }
+
+
+    private static boolean endGame(GameMap gameMap)
+    {
+        long rabbitCount = getCount(AnimalType.RABBIT, gameMap);
+
+        return rabbitCount == 0 || rabbitCount > 500 || getCount(AnimalType.WOLF, gameMap) == 0;
     }
 
 

@@ -46,7 +46,7 @@ public class GameMap
                     if (animal.animalType==AnimalType.WOLF)
                         wolfCount.getAndIncrement();
                 });
-                if (!wolfCount.compareAndSet(0, 0))
+                if (!wolfCount.compareAndSet(0, 0) && (animals.size() - wolfCount.get() > 0))
                 {
                     animals.clear();
                     for (int i = 0; i < wolfCount.get(); i++)
@@ -71,7 +71,7 @@ public class GameMap
         );
     }
 
-    public void dieOfAge()
+    public void dieAfterNotEating()
     {
         this.map.forEach(
                 animals -> animals.forEach(
