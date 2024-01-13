@@ -1,83 +1,82 @@
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Game
 {
-    static int rabbitCount;
-    static int wolfCount;
-    static ArrayList<ArrayList<Animal>> map = new ArrayList<>(100);
 
 
-    private static void createMap()
+    public static void startGame(int sRabbits, int sWolves, int turns)
     {
-        for (int i = 0; i < 100; i++)
-        {
-            map.add(new ArrayList<>());
-        }
-    }
-    private static void fillWithAnimal(AnimalType animalType)
-    {
-        Random rand = new Random();
-        map.get(rand.nextInt(100)).add(new Animal(animalType));
-    }
+        GameMap gameMap = new GameMap();
 
-
-    public static void startGame(int sRabbits, int sWolves)
-    {
-        startGame(sRabbits, sWolves, 0.4, 0.8, 1);
-    }
-
-    public static void startGame(int sRabbits, int sWolves, double rabbitMF, double wolfMF, double speed)
-    {
         if(sRabbits+sWolves>100)
         {
             System.out.println("There may be a 100 animals maximum");
             return;
         }
 
-        createMap();
+
 
         for (int i = 0; i < sRabbits; i++)
         {
-            fillWithAnimal(AnimalType.RABBIT);
+            gameMap.addAnimal(AnimalType.RABBIT);
         }
         for (int i = 0; i < sWolves; i++)
         {
-            fillWithAnimal(AnimalType.WOLF);
+            gameMap.addAnimal(AnimalType.WOLF);
         }
 
 
-    }
-
-    private static void nextTurn()
-    {
-        ArrayList<ArrayList<Animal>> tMap = new ArrayList<>(100);
-
-        map.forEach(
-                animals -> animals.forEach(
-                        animal -> {
-                            animal.increaseAge();
-
-                        }
-                )
-        );
-    }
-
-
-
-    public static void displayScreen()
-    {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < turns; i++)
         {
-            if (i%10==0)
-                System.out.println();
+            try
+            {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e)
+            {
+                throw new RuntimeException(e);
+            }
+            nextTurn(gameMap);
+            gameMap.display();
 
-            if (!map.get(i).isEmpty())
-                map.get(i).forEach(animal -> System.out.print(animal.getShortenedName() + " "));
-            else
-                System.out.print("0 ");
+            System.out.println();
+            System.out.println();
+            System.out.println();
 
-
+            System.out.println("Rabbits: " + getCount(AnimalType.RABBIT, gameMap) + " :  Wolves: " + getCount(AnimalType.WOLF, gameMap));
         }
+
     }
+
+    private static void nextTurn(GameMap gameMap)
+    {
+        gameMap.map.forEach(
+                animals -> animals.forEach(
+                        Animal::increaseAge));
+        gameMap.eat();
+        gameMap.reproduce();
+        gameMap.dieOfAge();
+
+        gameMap.shuffle();
+    }
+
+
+    private static long getCount(AnimalType type, GameMap gameMap)
+    {
+        int count = 0;
+
+        for(ArrayList<Animal> animals : gameMap.map)
+        {
+            for(Animal animal : animals)
+            {
+                if (animal.animalType.equals(type))
+                    count++;
+            }
+        }
+        return count;
+    }
+
+
+
+
 }

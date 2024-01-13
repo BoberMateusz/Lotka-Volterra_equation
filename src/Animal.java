@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Animal
 {
     private int age;
@@ -12,7 +10,6 @@ public class Animal
 
     public Animal(AnimalType animalType)
     {
-        Random rand = new Random();
         this.age = 0;
         this.animalType = animalType;
     }
