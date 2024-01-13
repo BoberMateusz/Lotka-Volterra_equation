@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Game
 {
@@ -28,13 +29,13 @@ public class Game
 
         for (int i = 0; i < turns; i++)
         {
-            /*try
+            try
             {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e)
             {
                 throw new RuntimeException(e);
-            }*/
+            }
             nextTurn(gameMap);
             gameMap.display();
             System.out.println("\n Turn: " + i + " :  " + "Rabbits: " + getCount(AnimalType.RABBIT, gameMap) + " :  Wolves: " + getCount(AnimalType.WOLF, gameMap) + "\n\n\n");
