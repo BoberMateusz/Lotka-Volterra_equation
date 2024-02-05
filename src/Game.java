@@ -1,12 +1,13 @@
-import java.util.ArrayList;
+import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
 public class Game
 {
 
 
-    public static void startGame(int sRabbits, int sWolves, int turns)
-    {
+    public static void startGame(int sRabbits, int sWolves, int turns) {
+        JTextArea textArea = Display.initiateDisplay();
+
         GameMap gameMap = new GameMap();
 
         if(sRabbits+sWolves>100)
@@ -27,7 +28,7 @@ public class Game
         }
 
 
-        for (int i = 0; i < turns; i++)
+        while (gameMap.turn <= turns)
         {
             try
             {
@@ -37,8 +38,9 @@ public class Game
                 throw new RuntimeException(e);
             }
             nextTurn(gameMap);
-            gameMap.display();
-            System.out.println("\n Turn: " + i + " :  " + "Rabbits: " + getCount(AnimalType.RABBIT, gameMap) + " :  Wolves: " + getCount(AnimalType.WOLF, gameMap) + "\n\n\n");
+            System.out.println(gameMap);
+            textArea.setText(gameMap.toString());
+
 
             if (endGame(gameMap))
                 break;
@@ -59,27 +61,11 @@ public class Game
     }
 
 
-    private static long getCount(AnimalType type, GameMap gameMap)
-    {
-        int count = 0;
-
-        for(ArrayList<Animal> animals : gameMap.map)
-        {
-            for(Animal animal : animals)
-            {
-                if (animal.animalType.equals(type))
-                    count++;
-            }
-        }
-        return count;
-    }
-
-
     private static boolean endGame(GameMap gameMap)
     {
-        long rabbitCount = getCount(AnimalType.RABBIT, gameMap);
+        long rabbitCount = gameMap.getCount(AnimalType.RABBIT);
 
-        return rabbitCount == 0 || rabbitCount > 500 || getCount(AnimalType.WOLF, gameMap) == 0;
+        return rabbitCount == 0 || rabbitCount > 500 || gameMap.getCount(AnimalType.WOLF) == 0;
     }
 
 

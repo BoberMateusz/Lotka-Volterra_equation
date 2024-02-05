@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 public class GameMap
 {
     ArrayList<ArrayList<Animal>> map;
+    public Integer turn = 0;
 
     public GameMap()
     {
@@ -83,26 +84,39 @@ public class GameMap
         );
     }
 
-
-
-
-    public void display()
+    long getCount(AnimalType type)
     {
+        int count = 0;
+
+        for(ArrayList<Animal> animals : this.map)
+        {
+            for(Animal animal : animals)
+            {
+                if (animal.animalType.equals(type))
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public String toString() {
+        var toDisplay =  new StringBuilder();
         for (int i = 0; i < 100; i++)
         {
             if (i%10==0)
-                System.out.println();
+                toDisplay.append("\n");
 
             if (!this.map.get(i).isEmpty())
             {
-                this.map.get(i).forEach(animal -> System.out.print(animal.getShortenedName()));
-                System.out.print(" ");
+                this.map.get(i).forEach(animal -> toDisplay.append(animal.getShortenedName()));
+                toDisplay.append(" ");
             }
-
             else
-                System.out.print("0 ");
-
-
+                toDisplay.append("0 ");
         }
+        toDisplay.append("\n Turn: ").append(this.turn).append(" :  ").append("Rabbits: ").append(getCount(AnimalType.RABBIT)).append(" :  Wolves: ").append(getCount(AnimalType.WOLF)).append("\n\n\n");
+
+        return toDisplay.toString();
     }
 }
