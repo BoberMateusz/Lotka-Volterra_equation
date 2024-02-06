@@ -3,15 +3,23 @@ import java.util.concurrent.TimeUnit;
 
 public class Game
 {
-    public static void startGame(int sRabbits, int sWolves, int turns) {
-        JTextArea textArea = Display.initiateDisplay();
+    public static void startGame(int startingRabbits, int startingWolves, int timeInterval)
+    {
+        startGame(startingRabbits, startingWolves, 200, timeInterval,
+                true, true, 1000);
+    }
+    public static int startGame(int sRabbits, int sWolves, int turns,
+                                int timeIntervals, boolean display, boolean text, int maxRabbits) {
+        JTextArea textArea = new JTextArea();
+        if (display)
+            textArea = Display.initiateDisplay();
 
         GameMap gameMap = new GameMap();
 
         if(sRabbits+sWolves>100)
         {
             System.out.println("There may be a 100 animals maximum");
-            return;
+            return 0;
         }
 
 
@@ -28,24 +36,30 @@ public class Game
 
         while (gameMap.turn <= turns)
         {
-            try
-            {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e)
-            {
-                throw new RuntimeException(e);
-            }
+            if(timeIntervals != 0){
+                try
+                {
+                    TimeUnit.SECONDS.sleep(timeIntervals);
+                } catch (InterruptedException e)
+                {
+                    throw new RuntimeException(e);
+                }}
             nextTurn(gameMap);
-            System.out.println(gameMap);
-            textArea.setText(gameMap.toString());
+            if(text)
+                System.out.println(gameMap);
+            if (display)
+                textArea.setText(gameMap.toString());
 
-
-            if (endGame(gameMap) != 0) {
-                Display.endMessage(endGame(gameMap), textArea);
-                break;
+            int result;
+            if ((result = endGame(gameMap, maxRabbits)) != 0) {
+                if (display)
+                    Display.endMessage(result, textArea);
+                return result;
             }
         }
-
+        if (display)
+            Display.endMessage(4, textArea);
+        return 4;
     }
 
     private static void nextTurn(GameMap gameMap)
@@ -53,7 +67,9 @@ public class Game
         gameMap.shuffle();
         gameMap.map.forEach(
                 animals -> animals.forEach(
-                        Animal::increaseAge));
+                        Animal::increaseAge
+                )
+        );
         gameMap.dieAfterNotEating();
         gameMap.eat();
         gameMap.reproduce();
@@ -62,11 +78,11 @@ public class Game
     }
 
 
-    private static int endGame(GameMap gameMap)
+    private static int endGame(GameMap gameMap, int maxRabbits)
     {
         long rabbitCount = gameMap.getCount(AnimalType.RABBIT);
 
-        if(rabbitCount>10000)
+        if(rabbitCount>maxRabbits)
             return 1;
         if(rabbitCount==0)
             return 2;

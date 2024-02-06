@@ -24,6 +24,7 @@ public class Display {
             case 1 -> "Rabbit population exceeded 1000.";
             case 2 -> "There are no rabbits left.";
             case 3 -> "All wolfs have starvated";
+            case 4 -> "Desired amount of turns has elapsed";
             default -> throw new IllegalStateException("Unexpected value: " + scenario);
         };
 
