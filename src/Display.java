@@ -10,10 +10,23 @@ public class Display {
     }
 
     public static JTextArea initiateDisplay() {
-       final var textArea = new JTextArea("STARTING...\n\n\n");
+       final var textArea = new JTextArea("STARTING..", 15, 50);
 
-        javax.swing.SwingUtilities.invokeLater(() -> createAndShowGUI(textArea));
+        SwingUtilities.invokeLater(() -> createAndShowGUI(textArea));
 
         return textArea;
+    }
+
+    public static void endMessage(int scenario, JTextArea textArea)
+    {
+        var appendment = switch (scenario)
+        {
+            case 1 -> "Rabbit population exceeded 1000.";
+            case 2 -> "There are no rabbits left.";
+            case 3 -> "All wolfs have starvated";
+            default -> throw new IllegalStateException("Unexpected value: " + scenario);
+        };
+
+        textArea.append(appendment);
     }
 }

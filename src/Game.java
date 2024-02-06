@@ -3,8 +3,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Game
 {
-
-
     public static void startGame(int sRabbits, int sWolves, int turns) {
         JTextArea textArea = Display.initiateDisplay();
 
@@ -42,8 +40,10 @@ public class Game
             textArea.setText(gameMap.toString());
 
 
-            if (endGame(gameMap))
+            if (endGame(gameMap) != 0) {
+                Display.endMessage(endGame(gameMap), textArea);
                 break;
+            }
         }
 
     }
@@ -57,15 +57,23 @@ public class Game
         gameMap.dieAfterNotEating();
         gameMap.eat();
         gameMap.reproduce();
+        gameMap.turn++;
 
     }
 
 
-    private static boolean endGame(GameMap gameMap)
+    private static int endGame(GameMap gameMap)
     {
         long rabbitCount = gameMap.getCount(AnimalType.RABBIT);
 
-        return rabbitCount == 0 || rabbitCount > 500 || gameMap.getCount(AnimalType.WOLF) == 0;
+        if(rabbitCount>10000)
+            return 1;
+        if(rabbitCount==0)
+            return 2;
+        if(gameMap.getCount(AnimalType.WOLF) == 0)
+            return 3;
+
+        return 0;
     }
 
 

@@ -7,11 +7,12 @@ import java.util.stream.Collectors;
 public class GameMap
 {
     ArrayList<ArrayList<Animal>> map;
-    public Integer turn = 0;
+    Integer turn;
 
     public GameMap()
     {
         map = newMap();
+        turn = 0;
     }
 
     private static ArrayList<ArrayList<Animal>> newMap()
@@ -98,6 +99,10 @@ public class GameMap
         }
         return count;
     }
+
+
+
+
 
     @Override
     public String toString() {
