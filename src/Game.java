@@ -36,6 +36,13 @@ public class Game
 
         while (gameMap.turn <= turns)
         {
+            int result;
+            if ((result = endGame(gameMap, maxRabbits)) != 0) {
+                if (display)
+                    Display.endMessage(result, textArea);
+                return result;
+            }
+
             if(timeIntervals != 0){
                 try
                 {
@@ -44,18 +51,17 @@ public class Game
                 {
                     throw new RuntimeException(e);
                 }}
-            nextTurn(gameMap);
-            if(text)
-                System.out.println(gameMap);
-            if (display)
-                textArea.setText(gameMap.toString());
 
-            int result;
-            if ((result = endGame(gameMap, maxRabbits)) != 0) {
-                if (display)
-                    Display.endMessage(result, textArea);
-                return result;
+            nextTurn(gameMap);
+
+            if(text) {
+                System.out.println(gameMap);
             }
+
+            if (display) {
+                textArea.setText(gameMap.toString());
+            }
+
         }
         if (display)
             Display.endMessage(4, textArea);
@@ -72,7 +78,7 @@ public class Game
         );
         gameMap.eat();
         gameMap.reproduce();
-        gameMap.dieAfterNotEating();
+        gameMap.starvate();
         gameMap.turn++;
 
     }

@@ -79,7 +79,7 @@ public class GameMap
         );
     }
 
-    public void dieAfterNotEating()
+    public void starvate()
     {
         this.map.forEach(
                 animals -> animals.forEach(
