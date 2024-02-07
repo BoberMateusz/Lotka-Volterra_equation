@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class GameMap
 {
-    ArrayList<ArrayList<Animal>> map;
+    CopyOnWriteArrayList<CopyOnWriteArrayList<Animal>> map;
     Integer turn;
 
     public GameMap()
@@ -15,12 +16,12 @@ public class GameMap
         turn = 0;
     }
 
-    private static ArrayList<ArrayList<Animal>> newMap()
+    private static CopyOnWriteArrayList<CopyOnWriteArrayList<Animal>> newMap()
     {
-        ArrayList<ArrayList<Animal>> map = new ArrayList<>();
+        CopyOnWriteArrayList<CopyOnWriteArrayList<Animal>> map = new CopyOnWriteArrayList<>();
         for (int i = 0; i < 100; i++)
         {
-            map.add(new ArrayList<>());
+            map.add(new CopyOnWriteArrayList<>());
         }
         return map;
     }
@@ -95,7 +96,7 @@ public class GameMap
     {
         int count = 0;
 
-        for(ArrayList<Animal> animals : this.map)
+        for(CopyOnWriteArrayList<Animal> animals : this.map)
         {
             for(Animal animal : animals)
             {

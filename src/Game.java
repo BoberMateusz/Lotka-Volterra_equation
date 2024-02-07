@@ -6,7 +6,7 @@ public class Game
     public static void startGame(int startingRabbits, int startingWolves, int timeInterval)
     {
         startGame(startingRabbits, startingWolves, 200, timeInterval,
-                true, true, 1000);
+                true, false, 1000);
     }
     public static int startGame(int sRabbits, int sWolves, int turns,
                                 int timeIntervals, boolean display, boolean text, int maxRabbits) {
