@@ -121,8 +121,12 @@ public class GameMap
 
             if (!this.map.get(i).isEmpty())
             {
-                this.map.get(i).forEach(animal -> toDisplay.append(animal.getShortenedName()));
-                toDisplay.append(" ");
+                String color = this.map.get(i).get(0).animalType == AnimalType.RABBIT ? Color.ANSI_GREEN : Color.ANSI_RED;
+                this.map.get(i).forEach(animal ->
+                        toDisplay.append(color)
+                                .append(animal.getShortenedName()));
+
+                toDisplay.append(Color.ANSI_RESET).append(" ");
             }
             else
                 toDisplay.append("0 ");
