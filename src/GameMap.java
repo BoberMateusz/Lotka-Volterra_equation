@@ -32,11 +32,17 @@ public class GameMap
         this.map.get(rand.nextInt(100)).add(new Animal(animalType));
     }
 
+    public void addAnimal(Animal animal)
+    {
+        Random rand = new Random();
+        this.map.get(rand.nextInt(100)).add(animal);
+    }
+
     public void shuffle()
     {
         ArrayList<Animal> farm = this.map.stream().flatMap(List::stream).collect(Collectors.toCollection(ArrayList::new));
         this.map = newMap();
-        farm.forEach(animal -> this.addAnimal(animal.animalType));
+        farm.forEach(this::addAnimal);
     }
 
     public void eat()

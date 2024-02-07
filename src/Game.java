@@ -70,9 +70,9 @@ public class Game
                         Animal::increaseAge
                 )
         );
-        gameMap.dieAfterNotEating();
         gameMap.eat();
         gameMap.reproduce();
+        gameMap.dieAfterNotEating();
         gameMap.turn++;
 
     }
