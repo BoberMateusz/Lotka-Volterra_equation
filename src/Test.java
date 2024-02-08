@@ -9,9 +9,9 @@ public class Test {
             results.add(0);
         }
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1; i++) {
             int gameResult = Game.startGame(20, 9, 100,
-                    0, false, false, 1000);
+                    1, false, true, 1000);
             results.set(gameResult, results.get(gameResult)+1);
         }
 
