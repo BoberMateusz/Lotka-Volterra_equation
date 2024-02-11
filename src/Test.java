@@ -20,6 +20,5 @@ public class Test {
                 "All wolves have starvated" + " " + results.get(3) + "\n" +
                 "Desired amount of turns has elapsed" + " " + results.get(4) + "\n" +
                 "Something unexpected occurred" + " " + results.get(0));
-
     }
 }

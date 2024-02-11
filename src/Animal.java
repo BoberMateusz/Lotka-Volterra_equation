@@ -23,6 +23,4 @@ public class Animal
     {
         return this.animalType.name().charAt(0);
     }
-
-
 }

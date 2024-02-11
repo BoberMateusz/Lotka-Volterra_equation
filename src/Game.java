@@ -14,7 +14,8 @@ public class Game
         if (display)
             textArea = Display.initiateDisplay();
 
-        GameMap gameMap = new GameMap();
+        GameMap gameMap = new GameMap(); //initiate everything
+
 
         if(sRabbits+sWolves>100)
         {
@@ -31,10 +32,10 @@ public class Game
         for (int i = 0; i < sWolves; i++)
         {
             gameMap.addAnimal(AnimalType.WOLF);
-        }
+        } //fill map with animals
 
 
-        while (gameMap.turn <= turns)
+        while (gameMap.turn <= turns) //turns
         {
             int result;
             if ((result = endGame(gameMap, maxRabbits)) != 0) {
@@ -73,14 +74,11 @@ public class Game
         gameMap.shuffle();
         gameMap.map.forEach(
                 animals -> animals.forEach(
-                        Animal::increaseAge
-                )
-        );
+                        Animal::increaseAge));
         gameMap.eat();
         gameMap.reproduce();
         gameMap.starvate();
         gameMap.turn++;
-
     }
 
 
@@ -97,8 +95,4 @@ public class Game
 
         return 0;
     }
-
-
-
-
 }

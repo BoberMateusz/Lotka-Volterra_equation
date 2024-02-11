@@ -108,9 +108,6 @@ public class GameMap
     }
 
 
-
-
-
     @Override
     public String toString() {
         var toDisplay =  new StringBuilder();
